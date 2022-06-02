@@ -1,0 +1,4 @@
+iframe[src^="//player.bilibili.com/"], iframe[src^="https://player.bilibili.com/"], iframe[src^="http://player.bilibili.com/"] {
+    width: 100%;
+    height: calc(56.25vw - 11.8125px);
+}

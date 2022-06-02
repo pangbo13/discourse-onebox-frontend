@@ -1,0 +1,15 @@
+@media (max-width: 610px) {
+    iframe[src^="//player.bilibili.com/"], iframe[src^="https://player.bilibili.com/"], iframe[src^="http://player.bilibili.com/"] {
+        width: 100%;
+        height: calc(56.25vw - 50.625px);
+    }
+}
+
+@media (min-width: 610px) {
+    iframe[src^="//player.bilibili.com/"], iframe[src^="https://player.bilibili.com/"], iframe[src^="http://player.bilibili.com/"] {
+        width: 100%;
+        height: calc(56.25vw + 17.375px);
+        min-height: 456.125px;
+        max-height: 480.0px;
+    }
+}

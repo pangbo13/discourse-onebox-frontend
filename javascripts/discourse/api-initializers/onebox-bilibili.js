@@ -17,7 +17,8 @@ export default apiInitializer("0.11.1", api => {
                 }
                 const onebox_div = document.createElement('div');
                 const biliframe = document.createElement('iframe');
-                onebox_div.classList.add('onebox');
+                onebox_div.classList.add('onebox', 'onebox-bilibili');
+                onebox_div.setAttribute('data-onebox-src', src);
                 biliframe.setAttribute('src',iframe_src);
                 onebox_div.replaceChildren(biliframe);
                 onebox_elem.replaceWith(onebox_div);
@@ -25,6 +26,6 @@ export default apiInitializer("0.11.1", api => {
 
         })
     },
-    { id: 'bilibili-onebox-decorator' }
+    { id: 'bilibili-onebox-decorator', onlyStream: true }
   );
 });

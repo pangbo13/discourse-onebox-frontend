@@ -20,7 +20,7 @@ export default apiInitializer("0.11.1", api => {
                 onebox_div.classList.add('onebox', 'onebox-bilibili');
                 onebox_div.setAttribute('data-onebox-src', src);
                 biliframe.setAttribute('src',iframe_src);
-                biliframe.setAttribute('sandbox', 'allow-scripts');
+                biliframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
                 biliframe.setAttribute('referrerpolicy', 'no-referrer');
                 biliframe.setAttribute('loading', 'lazy');
                 biliframe.setAttribute('importance', 'low');

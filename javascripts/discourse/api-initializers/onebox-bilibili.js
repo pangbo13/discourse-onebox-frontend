@@ -2,7 +2,7 @@ import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer("0.11.1", api => {
   api.decorateCookedElement(
-    elem => { 
+    elem => {
         const regex = /^https?:\/\/(?:www\.)?bilibili\.com\/video\/([a-zA-Z0-9]+)(?:\/.*|\?.*)?$/;
         let oneboxes = elem.querySelectorAll(".onebox");
         oneboxes.forEach((onebox_elem) => {
@@ -10,7 +10,7 @@ export default apiInitializer("0.11.1", api => {
             if(regex.test(src)){
                 const bili_id = src.match(regex)[1];
                 let iframe_src;
-                if (bili_id.toLowerCase().startsWith('bv')) { 
+                if (bili_id.toLowerCase().startsWith('bv')) {
                     iframe_src = `//player.bilibili.com/player.html?bvid=${bili_id}&high_quality=1`;
                 } else {
                     iframe_src = `//player.bilibili.com/player.html?aid=${bili_id.slice(2)}&high_quality=1`;
@@ -20,11 +20,14 @@ export default apiInitializer("0.11.1", api => {
                 onebox_div.classList.add('onebox', 'onebox-bilibili');
                 onebox_div.setAttribute('data-onebox-src', src);
                 biliframe.setAttribute('src',iframe_src);
+                biliframe.setAttribute('sandbox', '');
+                biliframe.setAttribute('referrerpolicy', 'no-referrer');
+                biliframe.setAttribute('loading', 'lazy');
+                biliframe.setAttribute('importance', 'low');
                 onebox_div.replaceChildren(biliframe);
                 onebox_elem.replaceWith(onebox_div);
             }
-
-        })
+        });
     },
     { id: 'bilibili-onebox-decorator', onlyStream: true }
   );

@@ -11,9 +11,9 @@ export default apiInitializer("0.11.1", api => {
                 const bili_id = src.match(regex)[1];
                 let iframe_src;
                 if (bili_id.toLowerCase().startsWith('bv')) {
-                    iframe_src = `//player.bilibili.com/player.html?bvid=${bili_id}&high_quality=1`;
+                    iframe_src = `//player.bilibili.com/player.html?bvid=${bili_id}&high_quality=1&autoplay=false`;
                 } else {
-                    iframe_src = `//player.bilibili.com/player.html?aid=${bili_id.slice(2)}&high_quality=1`;
+                    iframe_src = `//player.bilibili.com/player.html?aid=${bili_id.slice(2)}&high_quality=1&autoplay=false`;
                 }
                 const onebox_div = document.createElement('div');
                 const biliframe = document.createElement('iframe');

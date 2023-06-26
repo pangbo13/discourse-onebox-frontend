@@ -1,0 +1,4 @@
+zh_CN:
+  place_holder_bilibili: "[点击加载bilibili视频]"
+  theme_metadata:
+    description: "BiliBili前端onebox实现"

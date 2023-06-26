@@ -1,4 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
+import I18n from "I18n";
 
 export default apiInitializer("0.11.1", api => {
 
@@ -40,16 +41,29 @@ export default apiInitializer("0.11.1", api => {
         return onebox_div;
     };
 
-  api.decorateCookedElement(
-    elem => {
+    const hide_element = (elem, placeholder_text) => {
+        const placeholder = document.createElement('a');
+        placeholder.innerText = placeholder_text;
+        placeholder.setAttribute('data-previous',elem.outerHTML);
+        placeholder.addEventListener('click',function(event) {
+            const placeholder = event.target;
+            const previous = (new DOMParser()).parseFromString(placeholder.getAttribute('data-previous'), 'text/html').body.firstChild;;
+            placeholder.replaceWith(previous);
+        })
+        elem.replaceWith(placeholder);
+      }
+
+    api.decorateCookedElement(elem => {
         const regex = /^https?:\/\/(?:www\.)?bilibili\.com\/video\/([a-zA-Z0-9]+)(?:\/.*|\?.*)?$/;
         let oneboxes = elem.querySelectorAll(".onebox");
         let iframes = elem.querySelectorAll("iframe");
+        const rendered_oneboxes = [];
         oneboxes.forEach((onebox_elem) => {
             const src = onebox_elem.getAttribute("data-onebox-src") ?? onebox_elem.getAttribute("href");
             if(regex.test(src)){
                 const onebox_div = createOnebox(src);
                 onebox_elem.replaceWith(onebox_div);
+                rendered_oneboxes.push(onebox_div);
             }
         });
         iframes.forEach((iframe_elem) => {
@@ -57,9 +71,16 @@ export default apiInitializer("0.11.1", api => {
             if((new URL(src,document.baseURI)).hostname === 'player.bilibili.com'){
                 const onebox_div = createOnebox(src);
                 iframe_elem.replaceWith(onebox_div);
+                rendered_oneboxes.push(onebox_div);
             }
         });
+        // check if low data mode is enabled
+        if (!!api.getCurrentUser().get('lowDataModeVideo')) {  // may be undefined
+            rendered_oneboxes.forEach((onebox_div) => {
+                hide_element(onebox_div, I18n.t(themePrefix("place_holder_bilibili")));
+            });
+        }
     },
-    { id: 'bilibili-onebox-decorator', onlyStream: true }
+    { id: 'bilibili-onebox-decorator', onlyStream: false }
   );
 });

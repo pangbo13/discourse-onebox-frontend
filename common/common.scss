@@ -1,3 +1,11 @@
 iframe[src^="//player.bilibili.com/"], iframe[src^="https://player.bilibili.com/"], iframe[src^="http://player.bilibili.com/"] {
     border-width: 0px;
 }
+
+iframe.onebox-163music-iframe{
+    border: 0px;
+    margin: 0px;
+    width: 330px;
+    max-height: 800px;
+    min-height: 52px;
+}

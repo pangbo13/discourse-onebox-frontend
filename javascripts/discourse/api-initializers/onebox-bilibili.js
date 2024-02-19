@@ -24,6 +24,7 @@ export default apiInitializer("0.11.1", api => {
 
     const createIframe = (iframe_src) => {
         const biliframe = document.createElement('iframe');
+        biliframe.classList.add('bilibili-onebox-iframe')
         biliframe.setAttribute('src',iframe_src);
         biliframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
         biliframe.setAttribute('referrerpolicy', 'no-referrer');
@@ -40,18 +41,6 @@ export default apiInitializer("0.11.1", api => {
         onebox_div.replaceChildren(biliframe);
         return onebox_div;
     };
-
-    const hide_element = (elem, placeholder_text) => {
-        const placeholder = document.createElement('a');
-        placeholder.innerText = placeholder_text;
-        placeholder.setAttribute('data-previous',elem.outerHTML);
-        placeholder.addEventListener('click',function(event) {
-            const placeholder = event.target;
-            const previous = (new DOMParser()).parseFromString(placeholder.getAttribute('data-previous'), 'text/html').body.firstChild;;
-            placeholder.replaceWith(previous);
-        })
-        elem.replaceWith(placeholder);
-      }
 
     api.decorateCookedElement(elem => {
         const regex = /^https?:\/\/(?:www\.)?bilibili\.com\/video\/([a-zA-Z0-9]+)(?:\/.*|\?.*)?$/;
@@ -74,12 +63,6 @@ export default apiInitializer("0.11.1", api => {
                 rendered_oneboxes.push(onebox_div);
             }
         });
-        // check if low data mode is enabled
-        if (!!api.getCurrentUser().get('lowDataModeVideo')) {  // may be undefined
-            rendered_oneboxes.forEach((onebox_div) => {
-                hide_element(onebox_div, I18n.t(themePrefix("place_holder_bilibili")));
-            });
-        }
     },
     { id: 'bilibili-onebox-decorator', onlyStream: false }
   );

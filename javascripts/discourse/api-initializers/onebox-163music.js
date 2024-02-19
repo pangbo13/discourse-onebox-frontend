@@ -43,10 +43,22 @@ export default apiInitializer("0.11.1", api => {
     const createOneboxIframe = (src, original_iframe, type, height) => {
         decorateIframe(getIframeUrl(src), original_iframe);
         original_iframe.classList.add('onebox', 'onebox-163music');
-        if (type === 1) {
-            original_iframe.classList.add('onebox-163music-song');
-        } else if (type === 2) {
-            original_iframe.classList.add('onebox-163music-playlist');
+        switch (parseInt(type)) {
+            case 0:
+                original_iframe.classList.add('onebox-163music-playlist');
+                break;
+            case 1:
+                original_iframe.classList.add('onebox-163music-song');
+                break;
+            case 2:
+                original_iframe.classList.add('onebox-163music-album');
+                break;
+            case 3:
+                original_iframe.classList.add('onebox-163music-artist');
+                break;
+            default:
+                original_iframe.classList.add('onebox-163music-unknown');
+                break;
         }
         original_iframe.setAttribute('height', height);
         original_iframe.setAttribute('data-onebox-src', src);
